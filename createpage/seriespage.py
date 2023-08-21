@@ -45,6 +45,8 @@ def create_page(season_name,title,synopsis,poster,release_date,genre,homepage,pr
         Pagecover = "https://images.unsplash.com/photo-1608446781624-bb081c6c0e18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MzkyMXwwfDF8c2VhcmNofDJ8fGFwcGxlJTIwdHZ8ZW58MHx8fHwxNjkyNTg3OTYzfDA&ixlib=rb-4.0.3&q=80&w=200"
     elif provider == "Disney Plus":
         Pagecover = "https://www.comingsoon.net/wp-content/uploads/sites/3/2023/08/Disney-Plus-Price-Increase-2023.jpg?w=1024"
+    elif provider == "HBO":
+        Pagecover = "https://uploads.dailydot.com/2020/05/hbo-max.png"
     else:
         Pagecover = "https://images.unsplash.com/photo-1595769816263-9b910be24d5f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2MzkyMXwwfDF8c2VhcmNofDd8fGNpbmVtYXxlbnwwfHx8fDE2OTI1NzAyODB8MA&ixlib=rb-4.0.3&q=80&w=200"
     
@@ -68,6 +70,9 @@ def create_page(season_name,title,synopsis,poster,release_date,genre,homepage,pr
     else:
         pending_release = blocks.main_paragraph("--- Pending Release ---")
         episode_blocks.append(pending_release)
+    
+    batch_size = 100
+    episode_batches = [episode_blocks[i:i + batch_size] for i in range(0, len(episode_blocks), batch_size)]
 
     Review = blocks.heading_1("Overall Review")
     Callout = blocks.callout("")
@@ -75,9 +80,20 @@ def create_page(season_name,title,synopsis,poster,release_date,genre,homepage,pr
     Synopsis = blocks.main_paragraph(synopsis)
     Movie_poster = blocks.image(poster)
     Left_column = blocks.column(Movie_poster)
-    Right_column = blocks.modifiedcolumn(episode_blocks)
+    Right_column = blocks.modifiedcolumn(episode_batches[0])
     Colomn_list = blocks.column_list(Left_column,Right_column)
-    content = notion.content_format(Review,Callout,General,Synopsis,Colomn_list)
+    try:
+        Left_episode_column = blocks.modifiedcolumn(episode_batches[1])
+    except:
+        filler = blocks.main_paragraph("")
+        Left_episode_column = blocks.column(filler)
+    try:
+        Right_episode_column = blocks.modifiedcolumn(episode_batches[2])
+    except:
+        filler = blocks.main_paragraph("")
+        Right_episode_column = blocks.column(filler)
+    More_episodes = blocks.column_list(Left_episode_column,Right_episode_column)
+    content = notion.content_format(Review,Callout,General,Synopsis,Colomn_list,More_episodes)
 
     page_id = notion.create_page(
         database_id, headers, property_field, content, Pagecover,

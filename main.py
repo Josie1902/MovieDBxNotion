@@ -25,11 +25,11 @@ def movie(title):
         genre = [genre["name"] for genre in  details["genres"]]
         homepage = details["homepage"]
         provider = mdb.get_movie_provider(id)
-        print("-------------- \nMovie details:\n--------------")
+        click.echo(click.style("-------------- \nMovie details:\n--------------", fg='blue'))
         print(f"Title: {title}")
         print(f"Overview: {synopsis}")
         page_id = moviepage.create_page(title,synopsis,poster,release_date,genre,homepage,provider)
-        print(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ❕Page Created @ {page_id}\n")
+        click.echo(click.style(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ❕Page Created @ {page_id}\n", fg='green'))
     else:
         print("Invalid selection.")
 
@@ -51,15 +51,16 @@ def series(title):
         genre = [genre["name"] for genre in  details["genres"]]
         homepage = details["homepage"]
         provider = details['networks'][0]['name']
+        print("ID: ",id)
         seasons = [season["name"] for season in details["seasons"]]
-        print("-------------- \nSeries details:\n--------------")
+        click.echo(click.style("--------------- \nSeries details:\n---------------", fg='blue'))
         print(f"Title: {title}")
         print(f"Overview: {synopsis}")
-        print("-------------- \nSeasons Available:\n--------------")
-        for idx, season_name in enumerate(seasons, start=1):
+        click.echo(click.style("------------------ \nSeasons Available:\n------------------", fg='magenta'))
+        for idx, season_name in enumerate(seasons):
             print(f"{idx}. {season_name}")
         season_selection = click.prompt('Choose a season (enter the number)', type=int)
-        if 1 <= season_selection <= len(seasons):
+        if 0 <= season_selection <= len(seasons):
             season_details = mdb.get_season_details(id,season_selection)
             release_date = season_details["air_date"]
             season_name = season_details["name"]
@@ -67,11 +68,17 @@ def series(title):
             poster = base_poster_path + season_poster_path
             episode_array = []
             for episode in season_details["episodes"]:
-                episode_img = "https://image.tmdb.org/t/p/original" + episode['still_path']
+                if episode['still_path'] != None:
+                    episode_img = "https://image.tmdb.org/t/p/original" + episode['still_path'] 
+                else:
+                    episode_img = "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
                 episode_array.append([episode['episode_number'],episode['name'],episode['overview'],episode_img])
             
             page_id = seriespage.create_page(season_name,title,synopsis,poster,release_date,genre,homepage,provider,episode_array)
-            print(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ❕Page Created @ {page_id}\n")
+            if page_id != None:
+                click.echo(click.style(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ! Page Created @ {page_id}\n", fg='green'))
+            else:
+                 click.echo(click.style(f"\n🅂 🄾 🄼 🄴 🅃 🄷 🄸 🄽 🄶  🅆 🄴 🄽 🅃  🅆 🅁 🄾 🄽 🄶 ! D:", fg='red'))
         else:
             print("Invalid season selection.")
 

@@ -83,10 +83,12 @@ def create_page(
 
     data = json.dumps(new_page)
     res = requests.post(page_url, headers=headers, data=data)
+    page_id = None
     # Check for errors
     if res.status_code == 400 or res.status_code == 404 or res.status_code == 429:
         display_json(res)
     else:
         response_data = res.json()
         page_id = response_data.get('id')
-        return page_id
+
+    return page_id
