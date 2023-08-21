@@ -5,6 +5,7 @@ from createpage import seriespage
 
 @click.group()
 def cli():
+    """A simple CLI for MovieDB x NotionAPI"""
     pass
 
 @click.command(help='search for movies')
