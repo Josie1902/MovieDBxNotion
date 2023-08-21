@@ -29,7 +29,7 @@ def movie(title):
         print(f"Title: {title}")
         print(f"Overview: {synopsis}")
         page_id = moviepage.create_page(title,synopsis,poster,release_date,genre,homepage,provider)
-        click.echo(click.style(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ❕Page Created @ {page_id}\n", fg='green'))
+        click.echo(click.style(f"\n🅂 🅄 🄲 🄲 🄴 🅂 🅂 🄵 🅄 🄻  🅁 🄴 🅂 🄿 🄾 🄽 🅂 🄴 ! Page Created @ {page_id}\n", fg='green'))
     else:
         print("Invalid selection.")
 
