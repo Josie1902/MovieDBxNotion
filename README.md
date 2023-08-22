@@ -15,8 +15,9 @@ You should include these keys under your .env file.
     MY_NOTION_TOKEN =""
     DATABASE_ID = ""
 
-Follow [Notion - Getting Started](https://developers.notion.com/docs/create-a-notion-integration#getting-started) to create a new integration.
-Note: Remember to grant permissions to the integration in your database
+Follow [Notion - Getting Started](https://developers.notion.com/docs/create-a-notion-integration#getting-started) to create a new integration. Note: Remember to grant permissions to the integration in your database
+
+! Your Notion DB headers should match the property you want to include. You can modify the property under createpage2.py.
 
 ### Movie DB
 
@@ -45,9 +46,11 @@ Click module was used in making the command line. See more information below.
 5. Based on data available, create a page in your Notion Database
 6. Press ^C inorder to quit
 
+### Page Formats
+
 ## Make this a global executable on your terminal
 
-See Pyinstaller documentation: [Getting started](https://pyinstaller.org/en/stable/operating-mode.html)
+See Pyinstaller documentation: [Getting start](https://pyinstaller.org/en/stable/operating-mode.html)
 
     Mac: pyinstaller --onefile --add-data ".env:." main2.py
     Windows: pyinstaller --onefile --add-data ".env;." main2.py
