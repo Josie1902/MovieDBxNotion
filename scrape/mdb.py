@@ -25,10 +25,9 @@ def search_movie(movie_title):
     # Check if the request was successful
     if response.status_code == 200:
         data = response.json()
+        return data["results"][:5]
     else:
-        print(f"Error: {response.status_code}")
-
-    return data["results"][:5]
+        return f"Error: {response.status_code}"  
 
 def get_movie_details(movie_id):
     url = f"{base_url}/movie/{movie_id}"
@@ -39,7 +38,7 @@ def get_movie_details(movie_id):
     if response.status_code == 200:
         data = response.json()
     else:
-        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"  
     
     return data
 
@@ -52,7 +51,7 @@ def get_movie_provider(movie_id):
     if response.status_code == 200:
         data = response.json()
     else:
-        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"  
     
     try:
         provider = data["results"]["US"]["flatrate"][0]["provider_name"]
@@ -83,10 +82,10 @@ def search_series(series_title):
     # Check if the request was successful
     if response.status_code == 200:
         data = response.json()
+        return data["results"][:5]
     else:
-        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"  
 
-    return data["results"][:5]
 
 def get_series_details(series_id):
     url = f"{base_url}/tv/{series_id}"
@@ -97,7 +96,7 @@ def get_series_details(series_id):
     if response.status_code == 200:
         data = response.json()
     else:
-        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"  
     
     return data
 
@@ -110,6 +109,6 @@ def get_season_details(series_id,season_number):
     if response.status_code == 200:
         data = response.json()
     else:
-        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"  
     
     return data
