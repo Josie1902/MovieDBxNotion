@@ -76,7 +76,7 @@ def movie(title):
         print(f"Overview: {synopsis}")
         click.confirm(click.style('\nDo you want to continue?', fg='cyan'), abort=True)
         notionapi = NotionAPI(DATABASE_ID,NOTIONHEADERS)
-        property_field = notionapi.create_movie_property("Movie",title,genre,homepage,release_date)
+        property_field = notionapi.create_movie_property(title,genre,homepage,release_date)
         movie_content = notionapi.create_movie_format(synopsis,poster)
         page_id = notionapi.create_movie_page(property_field,provider,movie_content)
         if page_id != None:
@@ -131,7 +131,7 @@ def series(title):
 
         click.confirm(click.style('\nDo you want to continue?', fg='cyan'), abort=True)
         notionapi = NotionAPI(DATABASE_ID,NOTIONHEADERS)
-        property_field = notionapi.create_series_property("Series",season_name,title,genre,homepage,release_date)
+        property_field = notionapi.create_series_property(season_name,title,genre,homepage,release_date)
         series_content = notionapi.create_series_format(episode_array,synopsis,poster)
         page_id = notionapi.create_series_page(property_field,provider,series_content)
         if page_id != None:

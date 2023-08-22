@@ -10,13 +10,29 @@ class NotionAPI:
         self.headers = HEADERS
     
     def check_connection(self):
+        """Checks connection to Notion database
+
+        Returns:
+            dict: Database information
+        """
         response_data = notion.get_database(self.database_id,self.headers)
         return response_data
     
-    def create_movie_property(self,program,title,genre,homepage,release_date):
+    def create_movie_property(self,title,genre,homepage,release_date):
+        """Creates property field in Notion page
+
+        Args:
+            title (str): title of the movie
+            genre (list): list of genres assoicated to the movie
+            homepage (str): link to view movie
+            release_date (str): in ISO 8601 formate
+
+        Returns:
+            dict: property field
+        """
         Title = property.title(title)
         Genre = property.multi_select(genre)
-        Program =  property.select(program)
+        Program =  property.select("Movie")
         Homepage = property.url(homepage) if homepage != '' else None
         Release_date = property.date(release_date) if release_date is not None else None
 
@@ -39,7 +55,7 @@ class NotionAPI:
             provider (str): provider of movie
 
         Returns:
-            str: Notion page ID
+            dict: content dictionary
         """
 
         Review = blocks.heading_1("Overall Review")
@@ -54,6 +70,16 @@ class NotionAPI:
         return content
     
     def create_movie_page(self,property_field,provider,content):
+        """Create movie page in Notion DB
+
+        Args:
+            property_field (dict): Can be taken from create_movie_property()
+            provider (str): network that distributes the movie
+            content (dict): Can be taken from create_movie_format()
+
+        Returns:
+            str: Notion page id
+        """
         provider_pagecover_mapping = {
             "Netflix": "https://i.pcmag.com/imagery/reviews/05cItXL96l4LE9n02WfDR0h-5..v1582751026.png",
             "Amazon Prime Video": "https://www.recode.id/wp-content/uploads/2023/01/prime-video.jpg",
@@ -73,10 +99,22 @@ class NotionAPI:
 
         return page_id
     
-    def create_series_property(self,program,season_name,title,genre,homepage,release_date):
+    def create_series_property(self,season_name,title,genre,homepage,release_date):
+        """Creates property field in Notion page
+
+        Args:
+            season_name (str): season number of the series
+            title (str): title of the series
+            genre (list): list of genres assoicated to the serjes
+            homepage (str): link to view series
+            release_date (str): in ISO 8601 formate
+
+        Returns:
+            dict: property field
+        """
         Title = property.title(f"{title} ({season_name})")
         Genre = property.multi_select(genre)
-        Program =  property.select(program)
+        Program =  property.select("Series")
         Homepage = property.url(homepage) if homepage != '' else None
         Release_date = property.date(release_date) if release_date is not None else None
 
@@ -91,6 +129,16 @@ class NotionAPI:
         return property_field
 
     def create_series_format(self,episode_array,synopsis,poster):
+        """Create series page in Notion DB
+
+        Args:
+            episode_array (list): list of episodes in a season
+            synopsis (str): overview of the series
+            poster (str): url link to poster
+
+        Returns:
+            dict: content dictionary
+        """
         episode_blocks = []
         if len(episode_array) != 0:
             for episode in episode_array:
@@ -130,21 +178,15 @@ class NotionAPI:
 
     
     def create_series_page(self,property_field,provider,content):
-        """Create series page in Notion DB
+        """Create movie page in Notion DB
 
         Args:
-            season_selection (int): season number
-            title (str): title of the series
-            synopsis (str): overview of the series
-            poster (str): url link to poster
-            release_date (str): in ISO 860 format
-            genre (list): list of genre
-            homepage (str): url link to homepage
-            provider (str): provider of series
-            episode_array (list): list of episodes (contains: episode number, title, synopsis and image)
+            property_field (dict): Can be taken from create_movie_property()
+            provider (str): network that distributes the movie
+            content (dict): Can be taken from create_movie_format()
 
         Returns:
-            str: Notion page ID
+            str: Notion page id
         """
         provider_pagecover_mapping = {
             "Netflix": "https://i.pcmag.com/imagery/reviews/05cItXL96l4LE9n02WfDR0h-5..v1582751026.png",
