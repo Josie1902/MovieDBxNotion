@@ -1,7 +1,7 @@
 import click
 from scrape import mdb
-from createpage import moviepage
-from createpage import seriespage
+from createpage2 import moviepage
+from createpage2 import seriespage
 
 @click.group()
 def cli():
