@@ -32,9 +32,8 @@ def get_database(database_id, headers):
     if res.status_code == 400 or res.status_code == 404 or res.status_code == 429:
         display_json(res)
     else:
-        print(f"{res.status_code}: Successful response!")
+        return f"{res.status_code}: Successful response!"
 
-    return response_data
 
 # Data input
 def content_format(*blocks):
