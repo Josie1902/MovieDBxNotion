@@ -8,6 +8,8 @@ A simple command line tool which fetches series and movie data from Movie DB to 
 
 ## Make API Keys
 
+You should include these keys under your .env file.
+
 ### Notion
 
     MY_NOTION_TOKEN =""
@@ -29,8 +31,9 @@ Click module was used in making the command line. See more information below.
 
 ### Commands available
 
-- movie
-- series
+- connection: Checks connection to Notion database and MovieDB
+- movie: Add movie page
+- series: Add series page
 
 ### Basic User Flow
 
@@ -38,5 +41,31 @@ Click module was used in making the command line. See more information below.
 2. Displays available movies/series queried from MovieDB API
 3. Choose movie/series
 4. If it is a series, you are prompted to choose season number
+   \*\* Note: For Series, you are limited to 300 episodes per season
 5. Based on data available, create a page in your Notion Database
-6. Press any button not within the list of choices inorder to quit
+6. Press ^C inorder to quit
+
+## Make this a global executable on your terminal
+
+See Pyinstaller documentation: [Getting started](https://pyinstaller.org/en/stable/operating-mode.html)
+
+    Mac: pyinstaller --onefile --add-data ".env:." main2.py
+    Windows: pyinstaller --onefile --add-data ".env;." main2.py
+
+1.  Bundle main.py using pyinstaller as seen above.
+2.  main2.exe is created under dist folder. Copy it into the current directory and delete both the dist and build folders.
+3.  Execute ./main2 in your current directory to check whether it is working
+4.  `cp main2 ~/bin` (considering the fact that you already made a bin directory in your root ~)
+    You might need to modify .zshrc or .bashrc to include a **PATH** to the bin
+5.  You now have a global executable! :D
+
+## Painful Realisations
+
+### Odd pyinstaller-environment variables behaviour
+
+Credits: [load-dotenv-not-working-when-running-pyinstaller](https://stackoverflow.com/questions/71245844/load-dotenv-env-not-working-when-running-pyinstaller-executable-from-path-searc)
+A simple work around is to make sure we have an absolute path that points to the .env file.
+
+    base_path  =  os.path.dirname(os.path.abspath(__file__))
+    env_path  =  os.path.join(base_path,  '.env')
+    load_dotenv(env_path)
