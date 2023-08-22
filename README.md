@@ -47,6 +47,9 @@ Click module was used in making the command line. See more information below.
 6. Press ^C inorder to quit
 
 ### Page Formats
+| Series Page | Movie Page |
+| ------- | ------- |
+| ![Screenshot 2023-08-22 at 10 31 36 PM](https://github.com/Josie1902/MovieDBxNotion/assets/93362544/5d278190-3d75-4085-8839-871916c1ed43) | ![Screenshot 2023-08-22 at 10 41 40 PM](https://github.com/Josie1902/MovieDBxNotion/assets/93362544/de748b62-60ab-4c95-a4b8-d3112c0f2671)|
 
 ## Make this a global executable on your terminal
 
